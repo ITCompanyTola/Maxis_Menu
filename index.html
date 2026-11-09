@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Меню МАКСИС — макет</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600&display=swap">
+<style>
+/* Макет главного меню в стиле темы maxis: Manrope + Unbounded, синий акцент #3283ff, тёмно-синий текст #151e30, светло-голубые подложки. Панель-«мегаменю» на три колонки; на телефоне — аккордеон. */
+:root {
+  --bg: #f3f8ff;
+  --surface: #ffffff;
+  --fg: #151e30;
+  --fg-soft: rgba(21, 30, 48, 0.65);
+  --fg-faint: #66718c;
+  --line: #dde6f5;
+  --accent: #3283ff;
+  --accent-strong: #1c6ae3;
+  --accent-tint: rgba(50, 132, 255, 0.08);
+  --green: #1e7a45;
+  --green-tint: rgba(57, 181, 107, 0.15);
+  --warn: #a35a00;
+  --warn-tint: rgba(240, 160, 40, 0.16);
+  --shadow: 0 24px 48px -16px rgba(21, 30, 48, 0.22);
+  --font-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Unbounded", "Manrope", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1424; --surface: #151e30; --fg: #eaf0fb; --fg-soft: rgba(234, 240, 251, 0.7);
+    --fg-faint: #93a0bf; --line: #26324d; --accent: #5b9dff; --accent-strong: #8ab8ff;
+    --accent-tint: rgba(91, 157, 255, 0.14); --green: #5fd18f; --green-tint: rgba(57, 181, 107, 0.18);
+    --warn: #f0b45a; --warn-tint: rgba(240, 160, 40, 0.18); --shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.6);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1424; --surface: #151e30; --fg: #eaf0fb; --fg-soft: rgba(234, 240, 251, 0.7);
+  --fg-faint: #93a0bf; --line: #26324d; --accent: #5b9dff; --accent-strong: #8ab8ff;
+  --accent-tint: rgba(91, 157, 255, 0.14); --green: #5fd18f; --green-tint: rgba(57, 181, 107, 0.18);
+  --warn: #f0b45a; --warn-tint: rgba(240, 160, 40, 0.18); --shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.6);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.5;
+  padding-block: 20px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; cursor: pointer; background: none; border: 0; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+.wrap { max-width: 1240px; margin: 0 auto; display: grid; gap: 20px; }
+.intro { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 24px; }
+.intro h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(20px, 3vw, 28px); margin: 0 0 4px; text-wrap: balance; }
+.intro p { margin: 0; color: var(--fg-soft); max-width: 62ch; }
+.switches { display: flex; flex-wrap: wrap; gap: 8px; }
+.switch { display: inline-flex; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 4px; gap: 2px; }
+.switch button { padding: 8px 16px; border-radius: 999px; font-weight: 700; font-size: 14px; color: var(--fg-soft); }
+.switch button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+
+/* окно «сайта» */
+.site { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; position: relative; min-height: 640px; }
+.header { position: relative; z-index: 5; display: flex; align-items: center; gap: 8px; padding: 14px 20px; background: var(--surface); border-bottom: 1px solid var(--line); }
+.logo { font-family: var(--font-display); font-weight: 600; font-size: 18px; letter-spacing: 0.02em; display: flex; align-items: center; gap: 8px; margin-right: 8px; }
+.logo i { width: 26px; height: 26px; border-radius: 8px; background: var(--accent); display: inline-block; position: relative; }
+.logo i::after { content: ""; position: absolute; inset: 7px; border: 2px solid #fff; border-radius: 3px; }
+.nav { display: flex; align-items: center; gap: 2px; list-style: none; margin: 0; padding: 0; flex: 1; min-width: 0; }
+.nav > li { position: static; }
+.top { display: inline-flex; align-items: center; gap: 6px; padding: 8px 8px; border-radius: 10px; font-weight: 700; font-size: 14px; white-space: nowrap; }
+.topwrap { display: flex; align-items: center; border-radius: 10px; }
+.topwrap:hover, .topwrap.on { background: var(--accent-tint); color: var(--accent-strong); }
+.topwrap .top { padding-right: 4px; }
+.tgl { width: 28px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; }
+.tgl svg { width: 10px; height: 10px; transition: transform .15s; }
+.tgl[aria-expanded="true"] svg { transform: rotate(180deg); }
+.nav > li > a.top { padding-right: 8px; }
+.hub { max-width: 1100px; margin: 0 auto 18px; display: flex; align-items: center; justify-content: space-between; gap: 8px 16px; padding: 14px 18px; border-radius: 12px; background: var(--accent-tint); }
+.hubs { max-width: 1100px; margin: 0 auto 18px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.hubs .hub { margin: 0; max-width: none; }
+.hub b { display: block; font-family: var(--font-display); font-weight: 600; font-size: 15px; color: var(--accent-strong); }
+.hub span { color: var(--fg-soft); font-size: 14px; }
+.hub::after { content: ""; flex: none; width: 20px; height: 20px; background-color: var(--accent-strong);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2'%3E%3Cpath d='M12 5.5H7.5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V12'/%3E%3Cpath d='M14 4.5h5.5V10M19.5 4.5l-8 8'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2'%3E%3Cpath d='M12 5.5H7.5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V12'/%3E%3Cpath d='M14 4.5h5.5V10M19.5 4.5l-8 8'/%3E%3C/svg%3E") center / contain no-repeat; transition: transform .15s; }
+.hub:hover::after { transform: translate(2px, -2px); }
+.hub b { transition: transform .15s; }
+.hub:hover b, .hub:focus-visible b { transform: translateX(3px); }
+.head-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.util { font-weight: 700; font-size: 14px; color: var(--fg-soft); padding: 8px 6px; }
+.util:hover { color: var(--accent-strong); }
+.mobile-only { display: none; }
+.tel { font-weight: 700; white-space: nowrap; color: var(--fg-soft); font-size: 14px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; background: var(--accent); color: #fff; font-weight: 700; padding: 10px 16px; border-radius: 12px; white-space: nowrap; font-size: 14px; }
+.btn:hover { background: var(--accent-strong); }
+.burger { display: none; width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--line); align-items: center; justify-content: center; }
+.burger span, .burger span::before, .burger span::after { display: block; width: 18px; height: 2px; background: var(--fg); border-radius: 2px; position: relative; }
+.burger span::before, .burger span::after { content: ""; position: absolute; left: 0; }
+.burger span::before { top: -6px; } .burger span::after { top: 6px; }
+
+/* панель */
+.panel { position: absolute; left: 0; right: 0; top: 100%; background: var(--surface); border-bottom: 1px solid var(--line); box-shadow: var(--shadow); padding: 28px 24px 28px; }
+.panel[hidden] { display: none; }
+.cols { display: grid; gap: 8px 32px; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); max-width: 1100px; margin: 0 auto; }
+.col h3 { margin: 0 0 8px; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; }
+.col h3 a { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-strong); font-weight: 800; padding: 4px 0; }
+.col h3 a::after { content: "→"; transition: transform .15s; }
+.col h3 a:hover::after { transform: translateX(3px); }
+.col h3.plain { color: var(--fg-faint); font-weight: 800; padding: 4px 0; }
+/* Заголовок колонки — подпись, а не ссылка: без стрелки, без наведения, обычный курсор */
+.col h3.label { display: flex; align-items: center; gap: 10px; cursor: default; user-select: none; }
+.col h3.label .ic { display: none; }
+.ic svg { width: 16px; height: 16px; }
+/* 1. Надпись: серый капс + линия-разделитель */
+.hs-label .col h3.label { color: var(--fg-faint); font-weight: 800; font-size: 12px; letter-spacing: 0.08em; padding: 4px 0 8px; margin-bottom: 8px; border-bottom: 1px solid var(--line); }
+/* 2. Иконка: значок-категория слева, тёмный текст обычным регистром */
+.hs-icon .col h3.label { text-transform: none; letter-spacing: 0; font-size: 14px; font-weight: 800; color: var(--fg); padding: 0; margin-bottom: 10px; }
+.hs-icon .col h3.label .ic { display: inline-flex; flex: none; width: 30px; height: 30px; border-radius: 9px; background: var(--bg); border: 1px solid var(--line); color: var(--fg-faint); align-items: center; justify-content: center; }
+/* 3. Полоска: вертикальная черта слева, как у подписи раздела */
+.hs-bar .col h3.label { color: var(--fg); font-weight: 800; font-size: 12px; letter-spacing: 0.08em; padding: 2px 0 2px 10px; margin-bottom: 10px; border-left: 3px solid var(--fg-faint); line-height: 1.3; }
+.cardlink { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--accent-tint); font-family: var(--font-display); font-weight: 600; font-size: 15px; color: var(--accent-strong); }
+.cardlink::after { content: "→"; font-weight: 800; font-size: 18px; transition: transform .15s; }
+.cardlink:hover { border-color: var(--accent); }
+.cardlink:hover::after { transform: translateX(4px); }
+.col .desc + ul { margin-top: 10px; }
+.col .desc { margin: 0; padding: 0 0 0 0; color: var(--fg-soft); font-size: 14px; line-height: 1.4; }
+.col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
+.col li a { display: block; padding: 7px 10px; margin: 0 -10px; border-radius: 8px; font-weight: 600; font-size: 15px; }
+.col li a:hover { background: var(--accent-tint); color: var(--accent-strong); }
+.col li a small { display: block; font-weight: 500; color: var(--fg-faint); font-size: 12.5px; line-height: 1.35; }
+.tag { display: inline-block; font-size: 10.5px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; padding: 2px 7px; border-radius: 6px; margin-left: 6px; vertical-align: 2px; }
+.tag.new { background: var(--green-tint); color: var(--green); }
+.strip { max-width: 1100px; margin: 20px auto 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 20px; padding: 14px 16px; background: var(--bg); border-radius: 12px; }
+.strip b { font-size: 13px; color: var(--fg-faint); letter-spacing: 0.04em; text-transform: uppercase; }
+.strip a { font-weight: 700; color: var(--accent-strong); }
+.strip a:hover { text-decoration: underline; }
+.cta { margin: 20px -24px 0; padding: 16px 24px; background: var(--accent-tint); }
+.cta div { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; }
+.cta span { font-weight: 600; }
+.cta a { font-weight: 800; color: var(--accent-strong); }
+.cta a::after { content: " →"; }
+
+/* страница под меню */
+.hero { padding: 56px 24px 72px; max-width: 1100px; margin: 0 auto; }
+.hero small { color: var(--fg-faint); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; font-size: 12px; }
+.hero h2 { font-family: var(--font-display); font-weight: 600; font-size: clamp(26px, 4vw, 42px); line-height: 1.15; margin: 10px 0 14px; max-width: 18ch; text-wrap: balance; }
+.hero p { color: var(--fg-soft); max-width: 52ch; margin: 0 0 20px; }
+.ph { height: 8px; border-radius: 4px; background: var(--line); margin-top: 10px; max-width: 520px; }
+.ph:nth-of-type(2) { width: 80%; } .ph:nth-of-type(3) { width: 60%; }
+
+/* «сейчас» */
+.legacy-note { margin: 0; padding: 12px 16px; background: var(--warn-tint); color: var(--warn); font-weight: 600; border-radius: 12px; font-size: 14px; }
+.dead { color: var(--warn) !important; cursor: not-allowed; }
+.dead::after { content: " (не кликается)"; font-size: 11px; font-weight: 600; }
+
+.legend { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.legend div { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
+.legend b { display: block; margin-bottom: 2px; }
+.legend span { color: var(--fg-soft); font-size: 14px; }
+
+/* телефон */
+@media (max-width: 1240px) {
+  .header { flex-wrap: wrap; padding: 12px 16px; }
+  .burger { display: inline-flex; margin-left: auto; }
+  .head-right { display: none; }
+  .nav { display: none; flex: 1 0 100%; flex-direction: column; align-items: stretch; gap: 0; padding-top: 8px; }
+  .nav.open { display: flex; }
+  .nav > li { border-top: 1px solid var(--line); }
+  .topwrap { border-radius: 0; background: none !important; }
+  .top { flex: 1; padding: 14px 4px !important; border-radius: 0; font-size: 16px; }
+  .tgl { width: 44px; height: 44px; }
+  .panel { position: static; box-shadow: none; border: 0; padding: 4px 4px 16px; }
+  .cols { grid-template-columns: 1fr; gap: 14px; }
+  .cols[style*="--n:1"] ul { grid-template-columns: 1fr; }
+  .mobile-only { display: block; }
+  .strip { margin-top: 14px; }
+  .hubs { grid-template-columns: 1fr; }
+  .cta { margin: 14px 0 0; border-radius: 12px; }
+  .hero { padding: 32px 16px 48px; }
+  .site { min-height: 0; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+
+  <div class="site">
+    <header class="header">
+      <a class="logo" href="#" aria-label="МАКСИС, на главную"><i></i>МАКСИС</a>
+      <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><span></span></button>
+      <ul class="nav" id="nav"></ul>
+      <div class="head-right" id="head-right">
+        <a class="btn" href="#">Обсудить задачу</a>
+      </div>
+    </header>
+    <main class="hero">
+      <small>Страница сайта</small>
+      <h2>Автоматизация учёта и бизнеса на 1С и Битрикс24</h2>
+      <p>Здесь будет содержимое страницы. Меню открывается поверх неё.</p>
+      <div class="ph"></div><div class="ph"></div><div class="ph"></div>
+    </main>
+  </div>
+
+</div>
+
+<script>
+const NAMES = {
+  A: { c1: ['Все решения и услуги 1С'], b24: ['Все решения и услуги Битрикс24'], ai: ['Искусственный интеллект'] }
+};
+let variant = 'A';
+const svg = d => '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + d + '</svg>';
+const ICONS = {
+  tool: svg('<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/>'),
+  box: svg('<path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/>'),
+  cloud: svg('<path d="M7 18a4.5 4.5 0 0 1-.5-9A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5z"/>'),
+  sliders: svg('<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>'),
+  link: svg('<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>'),
+  code: svg('<path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/>'),
+  spark: svg('<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.7 1.8 1.8.7-1.8.7L19 21l-.7-1.8-1.8-.7 1.8-.7z"/>')
+};
+let heads = 'label';
+function buildNew(v) {
+  const N = NAMES[v];
+  return [
+  { t: '1С', n: 3, hub: N.c1, cols: [
+      { h: 'Услуги 1С', ic: 'tool', items: [['Внедрение 1С под ключ'], ['Сопровождение и поддержка 1С'], ['Доработка и разработка на 1С'], ['Восстановление учёта в 1С'], ['Управленческий учёт в 1С'], ['Обучение сотрудников и регламенты 1С'], ['ИИ в 1С'], ['Интеграция 1С и Битрикс24'], ['Синхронизация с интернет-магазином']] },
+      { h: 'Конфигурации 1С', ic: 'box', items: [['1С:Бухгалтерия'], ['1С:Зарплата и управление персоналом'], ['1С:Управление торговлей'], ['1С:Управление нашей фирмой'], ['1С:Розница'], ['1С:Комплексная автоматизация']] },
+      { h: 'Сервисы 1С', ic: 'cloud', items: [['1С:Фреш'], ['1С:ИТС'], ['1С-Отчётность'], ['1С:Контрагент'], ['1С:ЭДО'], ['1С:ДиректБанк'], ['1С:Кабинет сотрудника']] } ] },
+  { t: 'Битрикс24', n: 1, hub: N.b24, cols: [
+      { h: '', items: [['Внедрение Битрикс24 под ключ'], ['Разработка приложений и модулей'], ['Синхронизация с 1С'], ['Битрикс24 CRM'], ['Совместная работа в Битрикс24'], ['Автоматизация в Битрикс24'], ['КЭДО в Битрикс24'], ['ИИ в Битрикс24'], ['Сайты в Битрикс24'], ['Wazzup для Битрикс24']] } ] },
+  { t: 'Разработка ПО', n: 2, hubs: [['Разработка ПО'], N.ai], cols: [
+      { h: '', ic: 'code', items: [['SaaS-платформы'], ['CRM на заказ'], ['API и интеграции'], ['Чат-боты'], ['Доработка 1С'], ['Приложения для Битрикс24'], ['BI-аналитика и дашборды']] },
+      { h: '', ic: 'spark', items: [['RAG-база знаний и ИИ-ассистент'], ['ИИ в 1С'], ['ИИ в Битрикс24']] } ] },
+  { t: 'ИТ-услуги', n: 1, cols: [
+      { h: '', items: [['ИТ-аутсорсинг'], ['Серверы для 1С'], ['Серверы для Битрикс24'], ['Администрирование и DevOps'], ['Open Source']] } ] },
+  { t: 'Каталог', n: 1, hub: ['Все товары'], cols: [ { h: '', items: [['1С'], ['Битрикс24'], ['Прочее ПО']] } ] },
+  { t: 'О компании', n: 1, cols: [ { h: '', items: [['О компании'], ['Новости'], ['Документы и ИТ-деятельность'], ['Контакты']] } ] },
+  { t: 'Кейсы', link: true }
+];
+}
+const OLD = [
+  { t: '1С', n: 3, cols: [
+      { h: 'Услуги 1С', dead: true, items: [['Все решения и услуги 1С'], ['Внедрение 1С под ключ'], ['Восстановление учёта в 1С'], ['Управленческий учёт'], ['Сопровождение и поддержка 1С'], ['Обучение сотрудников и регламенты 1С'], ['Синхронизация с интернет-магазином'], ['Доработка и разработка на 1С'], ['Искусственный интеллект в 1С'], ['Синхронизация с Битрикс24']] },
+      { h: 'Конфигурации 1С', dead: true, items: [['1С:Бухгалтерия'], ['1С:Зарплата и управление персоналом'], ['1С:Управление торговлей'], ['1С:Управление нашей фирмой'], ['1С:Розница'], ['1С:Комплексная автоматизация']] },
+      { h: 'Сервисы 1С', dead: true, items: [['1С:Фреш'], ['1С:ИТС'], ['1С-Отчетность'], ['1С:Контрагент'], ['1С:ЭДО'], ['1С:ДиректБанк'], ['1С:Кабинет сотрудника']] } ] },
+  { t: 'Битрикс24', n: 1, cols: [ { h: 'Битрикс24', href: '#', items: [['Все решения и услуги Битрикс24'], ['Внедрение Битрикс24 под ключ'], ['Битрикс24 CRM'], ['Совместная работа в Битрикс24'], ['Автоматизация в Битрикс24'], ['КЭДО в Битрикс24'], ['Сайты в Битрикс24'], ['ИИ в Битрикс24'], ['Синхронизация с 1С'], ['Разработка приложений и модулей']] } ] },
+  { t: 'Услуги', n: 1, cols: [ { h: 'Услуги', href: '#', items: [['Все решения и услуги ИТ'], ['Интеграция 1С и Битрикс24'], ['BI-аналитика и дашборды'], ['Open Source'], ['Разработка ПО'], ['Искусственный интеллект']] } ] },
+  { t: 'Кейсы', link: true },
+  { t: 'Каталог', n: 1, cols: [ { h: 'Каталог', href: '#', items: [['Все товары'], ['1С'], ['Битрикс24'], ['Прочее ПО']] } ] },
+  { t: 'О компании', n: 1, cols: [ { h: 'О компании', href: '#', items: [['О компании'], ['ИТ-деятельность']] } ] },
+  { t: 'Новости', link: true },
+  { t: 'Контакты', link: true }
+];
+
+const nav = document.getElementById('nav');
+const burger = document.getElementById('burger');
+const chev = '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const esc = s => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+
+function item(i, isNew) {
+  const sub = i[1] ? '<small>' + esc(i[1]) + '</small>' : '';
+  return '<li><a href="#">' + esc(i[0]) + sub + '</a></li>';
+}
+function col(c) {
+  if (c.card) return '<div class="col"><a class="cardlink" href="#">' + esc(c.card) + '</a></div>';
+  const head = !c.h ? '' : c.href ? '<h3><a href="' + c.href + '">' + esc(c.h) + '</a></h3>'
+    : c.dead ? '<h3 class="plain"><span class="dead">' + esc(c.h) + '</span></h3>'
+    : '<h3 class="label">' + (c.ic ? '<span class="ic">' + ICONS[c.ic] + '</span>' : '') + '<span>' + esc(c.h) + '</span></h3>';
+  return '<div class="col">' + head + (c.items.length ? '<ul>' + c.items.map(item).join('') + '</ul>' : '') + '</div>';
+}
+function hub(h) {
+  return '<a class="hub" href="#"><div><b>' + esc(h[0]) + '</b>' + (h[1] ? '<span>' + esc(h[1]) + '</span>' : '') + '</div></a>';
+}
+function render(menu, showCta) {
+  nav.innerHTML = '';
+  menu.forEach((p, idx) => {
+    const li = document.createElement('li');
+    if (p.mobile) li.className = 'mobile-only';
+    if (p.link) { li.innerHTML = '<a class="top" href="#">' + esc(p.t) + '</a>'; nav.appendChild(li); return; }
+    const id = 'p' + idx;
+    let html = '<div class="topwrap"><a class="top" href="#">' + esc(p.t) + '</a><button class="tgl" aria-label="Раскрыть раздел «' + esc(p.t) + '»" aria-expanded="false" aria-controls="' + id + '">' + chev + '</button></div>';
+    html += '<div class="panel" id="' + id + '" hidden>';
+    if (p.hubs) html += '<div class="hubs">' + p.hubs.map(hub).join('') + '</div>';
+    if (p.hub) html += hub(p.hub);
+    html += '<div class="cols" style="--n:' + p.n + '">' + p.cols.map(col).join('') + '</div>';
+    if (p.strip) html += '<div class="strip"><b>' + esc(p.strip[0]) + '</b>' + p.strip[1].map(s => '<a href="#">' + esc(s[0]) + '</a>').join('') + '</div>';
+    html += '</div>';
+    li.innerHTML = html;
+    nav.appendChild(li);
+  });
+}
+function setOpen(b, open) {
+  b.setAttribute('aria-expanded', String(open));
+  b.closest('.topwrap').classList.toggle('on', open);
+  document.getElementById(b.getAttribute('aria-controls')).hidden = !open;
+}
+function closeAll(except) {
+  nav.querySelectorAll('.tgl[aria-expanded="true"]').forEach(b => { if (b !== except) setOpen(b, false); });
+}
+const desktop = () => window.matchMedia('(min-width: 1241px)').matches;
+nav.addEventListener('click', e => {
+  const b = e.target.closest('button.tgl');
+  if (b) { const open = b.getAttribute('aria-expanded') === 'true'; closeAll(b); setOpen(b, !open); return; }
+  if (e.target.closest('a')) e.preventDefault(); // в макете ссылки никуда не ведут
+});
+let timer;
+nav.addEventListener('mouseover', e => {
+  if (!desktop()) return;
+  const li = e.target.closest('.nav > li');
+  clearTimeout(timer);
+  if (!li) return;
+  const b = li.querySelector('.tgl');
+  closeAll(b);
+  if (b) setOpen(b, true);
+});
+nav.addEventListener('mouseleave', () => { if (desktop()) timer = setTimeout(() => closeAll(), 200); });
+nav.addEventListener('focusin', e => {
+  if (!desktop()) return;
+  const li = e.target.closest('.nav > li'); const b = li && li.querySelector('.tgl');
+  closeAll(b); if (b) setOpen(b, true);
+});
+document.addEventListener('click', e => { if (!e.target.closest('.header')) closeAll(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+burger.addEventListener('click', () => {
+  const o = nav.classList.toggle('open');
+  burger.setAttribute('aria-expanded', String(o));
+});
+
+render(buildNew(variant), true);
+document.querySelector('.site').className = 'site hs-label';
+// для наглядности сразу открываем панель 1С
+if (desktop()) setOpen(nav.querySelector('.tgl'), true);
+</script>
+
+</body>
+</html>
